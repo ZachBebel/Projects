@@ -1,0 +1,20 @@
+Controls:
+	
+Movement:
+W - Move Forward
+A - Move Left
+S - Move Backward
+D - Move Right
+SPACE - Jump
+	
+Camera:
+Mouse - Look and Rotate
+	
+Actions:
+Mouse Left-Click - Fire Bullet
+Mouse Right-Click - Teleport to most recently fired Bullet, Click and hold to follow Bullet
+
+GUI:
+P - Pause
+L - Lock Cursor
+ESC - Unlock Cursor
