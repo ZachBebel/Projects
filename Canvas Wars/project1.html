@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            //margin: 0;
+            //padding: 0;
+            background-color: black;
+            color: navy;
+            font-family: arial, sans-serif;
+        }
+
+        canvas {
+            display: block;
+            margin: 0.5em auto;
+            background: #fff;
+        }
+
+        img {
+            padding: 10px;
+            margin: auto;
+        }
+
+        #everything {
+            background-color: white;
+            width: 60em;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid;
+            border-radius: 10px;
+            border-color: white;
+        }
+
+        p, ul {
+            color: black;
+        }
+
+        a:link {
+            color: blue;
+        }
+
+        a:visited {
+            color: purple;
+        }
+
+        a:hover {
+            color: aqua;
+        }
+    </style>
+    <title>Canvas Wars</title>
+</head>
+
+<div id="everything">
+
+    <h1>Canvas Wars</h1>
+
+    <p>
+        <strong>Abstract:</strong>
+    </p>
+    <p>
+        The goal of this project was to create my own rich media web application utilizing canvas and javascript. The game I have created is a single-player
+        top-down shooter utilizing blastem as a base, expanding upon it through the following features:
+    </p>
+    <a href="canvaswars.html">Play Canvas Wars</a>
+    <p>
+        <br/><br />
+        <strong>Phase 1 Design:</strong>
+    </p>
+    <p>
+        I had originally planned to make this a top-down shooter with zombies, with the following criteria:
+    </p>
+    <ul>
+        <li>
+            <p>
+                A life system from the player
+            </p>
+        </li>
+        <li>
+            <p>
+                A health system for the player and the enemy
+            </p>
+        </li>
+        <li>
+            <p>
+                UI features including menus and a health bar
+            </p>
+        </li>
+        <li>
+            <p>
+                A gun (or more than one) with animation effects for shooting (ammo is unlimited)
+            </p>
+        </li>
+        <li>
+            <p>
+                Players can aim and shoot with the mouse, move with WASD
+            </p>
+        </li>
+        <li>
+            <p>
+                Enemies seek the player, dealing damage at a fixed rate while contacting the player
+            </p>
+        </li>
+        <li>
+            <p>
+                Expected sounds for gun, zombie moans, BGM, etc.
+            </p>
+        </li>
+        <li>
+            <p>
+                Game objective is to survive against zombie hordes as long as possible to achieve the highest possible score
+            </p>
+        </li>
+        <li>
+            <p>
+                Each game is played in Waves, where there are an increased number of enemies at increased health
+            </p>
+        </li>
+        <li>
+            <p>
+                Game is played until player runs out of lives
+            </p>
+        </li>
+    </ul>
+    <p>
+        Something reminiscent to "I Made a Game With Zombies In It":
+    </p>
+    <p>
+        <img src="images/page/zombies.jpg" alt="Zombies" width="480" height="360" />
+    </p>
+    <p>
+        <br /><br />
+        <strong>Phase 2 Design:</strong>
+    </p>
+    <p>
+        The more I coded the game, the more I felt I was recreating something reminiscent of Geometry Wars, so I ended up changing my idea to fit along more so
+        along the theme of blastem (while maintaining almost all of the mechanical elements listed above), completing it as a space-shooter.
+    </p>
+    <p>
+        <img src="images/page/start.png" alt="Canvas Wars Start Screen" width="480" height="360" />
+    </p>
+    <p>
+        <strong>Here's how I met all the Required Design Elements:</strong>
+    </p>
+    <p>
+        <u>Animations and other Graphical effects:</u>
+    </p>
+    <p>
+        I made sure to pimp out blastem with a nice smooth UI and color scheme
+    </p>
+    <ul>
+        <li>
+            <p>
+                Images - <a href="http://7-themes.com/data_images/out/1/6771739-awesome-blue-space-wallpaper.jpg">Background</a>, Ship, Enemy
+
+            </p>
+        </li>
+        <li>
+            <p>
+                Gradients - Title and Menu screens
+            </p>
+        </li>
+        <li>
+            <p>
+                Explosion Animation - Enemy explosions
+            </p>
+        </li>
+    </ul>
+    <p>
+        <u>User Input &amp; Feedback:</u>
+    </p>
+    <p>
+        The player interacts with the game through the following:
+    </p>
+    <ul>
+        <li>
+            <p>
+                Keyboard - Movement, Pausing
+            </p>
+        </li>
+        <li>
+            <p>
+                Mouse - Aiming, Shooting
+            </p>
+        </li>
+        <li>
+            <p>
+                Buttons (created by me) - Navigation
+            </p>
+        </li>
+    </ul>
+    <p>
+        <u>Sound:</u>
+    </p>
+    <p>
+        I really liked the original blastem sounds, so I kept them.
+    </p>
+    <ul>
+        <li>
+            <p>
+                BGM - Short techno loop
+            </p>
+        </li>
+        <li>
+            <p>
+                Bullet Fire - Laser-like sound
+            </p>
+        </li>
+        <li>
+            <p>
+                Enemy Explosion - Flame sound
+            </p>
+        </li>
+    </ul>
+    <p>
+        <u>Performance:</u>
+    </p>
+    <ul>
+        <li>
+            <p>
+                Runs very smoothly and without error.
+            </p>
+        </li>
+    </ul>
+    <p>
+        <u>Usability:</u>
+    </p>
+    <p>
+        There are 6 Game States, each having the ability to navigate through buttons:
+    </p>
+    <ul>
+        <li>
+            <p>
+                Start &#8594; Game, Instructions or Options
+            </p>
+        </li>
+        <li>
+            <p>
+                Instructions &#8594; Start
+            </p>
+        </li>
+        <li>
+            <p>
+                Options &#8594; Start
+            </p>
+        </li>
+        <li>
+            <p>
+                Pause &#8594; Game or Start
+            </p>
+        </li>
+        <li>
+            <p>
+                Game &#8594; (Through button press) Pause or Game Over
+            </p>
+        </li>
+        <li>
+            <p>
+                Game Over &#8594; Game or Start
+            </p>
+        </li>
+    </ul>
+    <p>
+        <u>Citations:</u>
+    </p>
+    <ul>
+        <li>
+            <p>
+                The only material or code that I used that was not created by me or was used in this class was the background image (cited above).
+            </p>
+        </li>
+        <li>
+            <p>
+                The completed blastem ICE was used as a base for this project
+            </p>
+        </li>
+    </ul>
+    <p>
+        <u>Difficulty: </u>
+    </p>
+    <p>
+        This is the game's key feature and key element of fun. The game continuously ramps up the spawn rate of the enemies, allowing players to feel as challenged
+        as needed. It's also extremely fun once it really starts getting crazy, as you'll still be pressured to dodge and kill enemies even after you master the
+        controls.
+    </p>
+    <p>
+        <br /><br />
+        <strong>Key Design Decisions:</strong>
+    </p>
+    <p>
+        I recreated blastem with a Geometry Wars-like control scheme and feel to it, adding in some features of my own.
+    </p>
+    <p>
+        <u>Randomness for varied gameplay:</u>
+    </p>
+    <ul>
+        <li>
+            <p>
+                Enemies randomly spawn from one of the eight cardinal directions bordering the canvas
+            </p>
+        </li>
+        <li>
+            <p>
+                Enemies spawn at a random rate, with a spawn chance that increases slightly with every wave
+            </p>
+        </li>
+        <li>
+            <p>
+                Enemies spawn with a random speed
+            </p>
+        </li>
+    </ul>
+    <p>
+        The randomness element of this game is part of what makes this game fun and challenging, also adding a luck factor.
+    </p>
+    <p>
+        <u>Skill-based gameplay:</u>
+    </p>
+    <p>
+        Some of the normal strategies for most top-down shooters are to stay in one location on the map where you have the least amount of enemies coming after you
+        at a time, or the smallest relevant field of vision needed to shoot down enemies. My game eliminates that possibility through the following features:
+    </p>
+    <ul>
+        <li>
+            <p>
+                Enemies are fast enough to overwhelm the player in later waves if they choose to try to camp in the center of the map.
+            </p>
+        </li>
+        <li>
+            <p>
+                Enemies spawn randomly at the edges so players cannot remain close to the corners or edges for very long without taking damage by newly spawned
+                enemies that are extremely difficult to react to. than if they were closer to the middle.
+            </p>
+        </li>
+    </ul>
+    <p>
+        Other skill-based features:
+    </p>
+    <ul>
+        <li>
+            <p>
+                The bullets are small enough for the player to have a chance to miss an enemy when shooting in its general direction, forcing the player to learn
+                better aim if they desire to perform better.
+            </p>
+        </li>
+        <li>
+            <p>
+                Players will need to learn how to manipulate the seeking functionality of the enemies to their advantage in order to continue to survive later
+                waves as the spawn rate continues to increase.
+            </p>
+        </li>
+    </ul>
+    <p>
+        Basically, the game forces you to move around, aim well, and hone a good reaction time along with good hand-eye coordination. I'd say that's pretty
+        successful for a top-down shooter.
+    </p>
+    <p>
+        <br /><br />
+        <strong>Notable Programming Decisions:</strong>
+    </p>
+    <p>
+        <u>Buttons:</u>
+    </p>
+    <p>
+        I redesigned an older button design that I had made for another project in Processing that I was really proud of:
+    </p>
+    <ul>
+        <li>
+            <p>
+                The buttons dynamically resize and scale to their height value
+            </p>
+        </li>
+        <li>
+            <p>
+                The buttons automatically do the proper calculations to perfectly center any font to the center of the button.
+            </p>
+        </li>
+        <li>
+            <p>
+                The buttons are also responsive to when a mouse hovers over it, lighting up upon mouse enter.
+            </p>
+        </li>
+    </ul>
+    <p>
+        <u>Mostly everything scales for easy tweaks:</u>
+    </p>
+    <p>
+        Since fine-tuning a ton of values is very tedious work, I took the liberty of standardizing most values of objects I created so that they scaled well with
+        the screen and each other. This way if I ever needed to change most values (such as size) of a group of objects, I could do so with a few quick and simple
+        clicks, as opposed to having to reset each one individually every time.
+    </p>
+    <p>
+        <u>GameState code is super-optimized and sleek:</u>
+    </p>
+    <ul>
+        <li>
+            <p>
+                I was able to create and reuse 6 different buttons for the entire project, and in such a way that I only had to include the code to check each of
+                those buttons once at the end of the drawing loop.
+            </p>
+        </li>
+        <li>
+            <p>
+                The menus are created simply with one line of code that references drawLib
+            </p>
+        </li>
+        <li>
+            <p>
+                The only tedious code that exists within the GameStates are the text and soundToggleButton shadow.
+            </p>
+        </li>
+    </ul>
+    <p>
+        <br /><br />
+        <strong>Issues &amp; Room for Improvement:</strong>
+    </p>
+    <p>
+        The only real issue I had with creating this game was figuring out how to get the player to rotate properly by tracing the mouse position. I felt that once
+        I tackled that wall, everything else fell smoothly into place afterwards, even though it still took some time to fine tune everything.
+    </p>
+    <p>
+        As for improvement, I'd say I could continue along the Geometry Wars route and just recreate that, even though it would be a different game than the one I
+        have now. But as for tweaking this game, I feel that I could add some more wave variance functionality, however I can't quite picture what that would be
+        without completely changing the current dynamic of the game. Otherwise, I think I did a great job with what were were allowed to work with in creating a
+        nice look-and-feel, engaging gameplay, and well-designed, commented and formatted code.
+    </p>
+    <p>
+        <br /><br />
+        <strong>Navigation:</strong>
+    </p>
+
+    <ul>
+        <li><a href="canvaswars.html">Play Canvas Wars</a></li>
+        <li><a href="../index.html"> Main Page </a></li>
+        <li><a href="project2/project2.html"> Project 2 </a></li>
+    </ul>
+
+    <footer>
+        &copy;2015 Zach Bebel
+    </footer>
+</div>
+
+</html>
