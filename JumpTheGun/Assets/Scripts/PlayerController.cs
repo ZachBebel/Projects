@@ -5,9 +5,9 @@ using System.Collections;
 public class PlayerController : Photon.MonoBehaviour {
 	
 	// Physics Variables
-	public float movementSpeed = 5.0f;
+	public float movementSpeed = 15.0f;
 	public float mouseSensitivity = 5.0f;
-	public float jumpSpeed = 20.0f;
+	public float jumpSpeed = 1.0f;
 	float verticalVelocity = 0.0f;
 	float forwardSpeed;
 	float sideSpeed;
@@ -21,17 +21,17 @@ public class PlayerController : Photon.MonoBehaviour {
 	CharacterController characterController;
 	Camera playerCam;
 	public GameObject mostRecentBullet;
-	NetworkManager networkManager;
+	//NetworkManager networkManager;
 
 	//Debug Bools
 	bool paused;
 	
 	void Start () {
-		Screen.lockCursor = true;
+		Cursor.lockState = CursorLockMode.Locked;
 		characterController = GetComponent<CharacterController>();
-		playerCam = this.transform.FindChild ("Main Camera").camera;
+		playerCam = this.transform.FindChild ("Main Camera").GetComponent<Camera>();
 		this.gameObject.tag = "Player";
-		networkManager = GameObject.Find("_Scripts").GetComponent<NetworkManager>();
+		//networkManager = GameObject.Find("_Scripts").GetComponent<NetworkManager>();
 	}
 	
 	//
@@ -65,13 +65,13 @@ public class PlayerController : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(networkManager.gameState == GameState.Game)
-		{
+		//if(networkManager.gameState == GameState.Game)
+		//{
 			Look ();
 			Move ();
 			Shoot ();
 			Teleport ();
-		}
+		//}
 
 		Paused();
 		OutOfBounds();
@@ -123,17 +123,25 @@ public class PlayerController : Photon.MonoBehaviour {
 	void Shoot () 
 	{
 
-		//
-		// Shooting
-		//
-
+        //
+        // Shooting
+        //
+        /*
 		if( Input.GetButtonDown("Fire1") ) {
 			GameObject thebullet = (GameObject)PhotonNetwork.Instantiate("Bullet", playerCam.transform.position + playerCam.transform.forward, playerCam.transform.rotation, 0);
 			thebullet.GetComponent<PhotonView>().RPC("Fire", PhotonTargets.All, playerCam.transform.forward * thebullet.GetComponent<BulletScript>().speed);
 			thebullet.GetComponent<BulletScript>().myPlayer = this.gameObject;
 			thebullet.GetComponent<PhotonView>().RPC("SetColor", PhotonTargets.AllBuffered, GetComponent<PlayerAttributes>().playerColor);
 		}
-	}
+        */
+        if (Input.GetButtonDown("Fire1"))
+        {
+            GameObject thebullet = (GameObject)Instantiate(Resources.Load("Bullet"), playerCam.transform.position + playerCam.transform.forward, playerCam.transform.rotation);
+            thebullet.GetComponent<PhotonView>().RPC("Fire", PhotonTargets.All, playerCam.transform.forward * thebullet.GetComponent<BulletScript>().speed);
+            thebullet.GetComponent<BulletScript>().myPlayer = this.gameObject;
+            thebullet.GetComponent<PhotonView>().RPC("SetColor", PhotonTargets.AllBuffered, GetComponent<PlayerAttributes>().playerColor);
+        }
+    }
 	
 	void Teleport () 
 	{
@@ -166,7 +174,7 @@ public class PlayerController : Photon.MonoBehaviour {
 		//
 		// Pausing
 		//
-
+        /*
 		if (Input.GetKeyDown (KeyCode.P))
 		{
 			// Switch Between Pause Menu and Game States
@@ -181,12 +189,21 @@ public class PlayerController : Photon.MonoBehaviour {
 				Screen.lockCursor = true;
 			}
 		}
-
+        */
 		// Lock or Unlock the Cursor via ESC or L
 		if (Input.GetKeyDown (KeyCode.Escape) || Input.GetKeyDown (KeyCode.L)) 
 		{
-			Screen.lockCursor = !Screen.lockCursor; 
-		}
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+        }
 	}
 
 	void OutOfBounds()

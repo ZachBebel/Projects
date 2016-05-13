@@ -12,10 +12,10 @@ public class BulletScript : Photon.MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		if(photonView.isMine) 
-		{ 
+		//if(photonView.isMine) 
+		//{ 
 			myPlayer.GetComponent<PlayerController>().mostRecentBullet = this.gameObject;
-		}
+		//}
 	}
 	
 	// Update is called once per frame
@@ -27,16 +27,16 @@ public class BulletScript : Photon.MonoBehaviour {
 		}
 	}
 
-	[RPC]
+	//[RPC]
 	public void SetColor(int colorNumber) {
 		bulletColor = colorNumber;
-		renderer.material = AssetManager.colors[colorNumber];
+		GetComponent<Renderer>().material = AssetManager.colors[colorNumber];
 	}
 
-	[RPC]
+	//[RPC]
 	public void Fire(Vector3 position) 
 	{
-		rigidbody.AddForce(position, ForceMode.Impulse);
+		GetComponent<Rigidbody>().AddForce(position, ForceMode.Impulse);
 	}
 	
 	void OnCollisionEnter(Collision collision) {
@@ -44,7 +44,7 @@ public class BulletScript : Photon.MonoBehaviour {
 		// Make sure the bullet doesn't ever collide with its shooter
 		if (collision.gameObject == myPlayer)
 		{
-			collider.isTrigger = true;
+			GetComponent<Collider>().isTrigger = true;
 		}
 		else
 		{
@@ -61,7 +61,7 @@ public class BulletScript : Photon.MonoBehaviour {
 		// Allow the bullet to collide with other gameObjects once more after having collided with the shooter
 		if (collision.gameObject == myPlayer)
 		{
-			collider.isTrigger = false;
+			GetComponent<Collider>().isTrigger = false;
 		}
 	}
 

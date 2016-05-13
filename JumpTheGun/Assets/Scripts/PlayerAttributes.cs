@@ -30,8 +30,8 @@ public class PlayerAttributes : Photon.MonoBehaviour {
 	[RPC]
 	public void SetColor(int colorNumber) {
 		playerColor = colorNumber;
-		renderer.material = AssetManager.colors[colorNumber];
-		guiHUD.guiTexture.texture = AssetManager.HUDColors[colorNumber];
+		GetComponent<Renderer>().material = AssetManager.colors[colorNumber];
+		guiHUD.GetComponent<GUITexture>().texture = AssetManager.HUDColors[colorNumber];
 
 	}
 
@@ -64,10 +64,10 @@ public class PlayerAttributes : Photon.MonoBehaviour {
 		guiHealthBar.transform.localScale = new Vector3(changeScale, guiHealthBar.transform.localScale.y, guiHealthBar.transform.localScale.z);
 		
 		if(healthPercent < 0.5f){
-			guiHealthBar.guiTexture.texture = AssetManager.redHealthMat; 
+			guiHealthBar.GetComponent<GUITexture>().texture = AssetManager.redHealthMat; 
 		}
 		else{
-			guiHealthBar.guiTexture.texture = AssetManager.greenHealthMat;
+			guiHealthBar.GetComponent<GUITexture>().texture = AssetManager.greenHealthMat;
 		}
 
 	}
