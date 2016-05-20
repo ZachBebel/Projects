@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpawnSpot : MonoBehaviour {
+public class SpawnSpot : MonoBehaviour
+{
 
-	public int teamID = 0;
+    public int teamID = 0;
 
 }

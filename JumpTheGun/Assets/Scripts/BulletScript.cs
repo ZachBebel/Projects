@@ -12,10 +12,10 @@ public class BulletScript : Photon.MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		//if(photonView.isMine) 
-		//{ 
+		if(photonView.isMine) 
+		{ 
 			myPlayer.GetComponent<PlayerController>().mostRecentBullet = this.gameObject;
-		//}
+		}
 	}
 	
 	// Update is called once per frame
@@ -27,13 +27,13 @@ public class BulletScript : Photon.MonoBehaviour {
 		}
 	}
 
-	//[RPC]
+	[PunRPC]
 	public void SetColor(int colorNumber) {
 		bulletColor = colorNumber;
 		GetComponent<Renderer>().material = AssetManager.colors[colorNumber];
 	}
 
-	//[RPC]
+	[PunRPC]
 	public void Fire(Vector3 position) 
 	{
 		GetComponent<Rigidbody>().AddForce(position, ForceMode.Impulse);

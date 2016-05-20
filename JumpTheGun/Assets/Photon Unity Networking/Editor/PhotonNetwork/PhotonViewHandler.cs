@@ -1,3 +1,7 @@
+#if UNITY_5 && !UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2
+#define UNITY_MIN_5_3
+#endif
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -5,6 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections;
 using Debug = UnityEngine.Debug;
+using UnityEditor.SceneManagement;
 
 [InitializeOnLoad]
 public class PhotonViewHandler : EditorWindow
@@ -27,7 +32,7 @@ public class PhotonViewHandler : EditorWindow
         if (Application.isPlaying)
         {
             //Debug.Log("HierarchyChange ignored, while running.");
-            CheckSceneForStuckHandlers = true;
+            CheckSceneForStuckHandlers = true;  // done once AFTER play mode.
             return;
         }
 
@@ -45,22 +50,27 @@ public class PhotonViewHandler : EditorWindow
         //PhotonView[] pvObjects = GameObject.FindSceneObjectsOfType(typeof(PhotonView)) as PhotonView[];
         //Debug.Log("HierarchyChange. PV Count: " + pvObjects.Length);
 
-        
-        int minViewIdInThisScene = PunSceneSettings.MinViewIdForScene(Application.loadedLevelName);
+        string levelName = SceneManagerHelper.ActiveSceneName;
+        #if UNITY_EDITOR
+        levelName = SceneManagerHelper.EditorActiveSceneName;
+        #endif
+        int minViewIdInThisScene = PunSceneSettings.MinViewIdForScene(levelName);
         //Debug.Log("Level '" + Application.loadedLevelName + "' has a minimum ViewId of: " + minViewIdInThisScene);
 
         PhotonView[] pvObjects = Resources.FindObjectsOfTypeAll(typeof(PhotonView)) as PhotonView[];
+
         foreach (PhotonView view in pvObjects)
         {
             // first pass: fix prefabs to viewID 0 if they got a view number assigned (cause they should not have one!)
             if (EditorUtility.IsPersistent(view.gameObject))
             {
-                if (view.viewID != 0 || view.prefixBackup != -1)
+                if (view.viewID != 0 || view.prefixBackup != -1 || view.instantiationId != -1)
                 {
                     Debug.LogWarning("PhotonView on persistent object being fixed (id and prefix must be 0). Was: " + view);
                     view.viewID = 0;
                     view.prefixBackup = -1;
-                    EditorUtility.SetDirty(view);
+                    view.instantiationId = -1;
+                    EditorUtility.SetDirty(view);   // even in Unity 5.3+ it's OK to SetDirty() for non-scene objects. 
                     fixedSomeId = true;
                 }
             }
@@ -70,6 +80,8 @@ public class PhotonViewHandler : EditorWindow
                 pvInstances.Add(view);
             }
         }
+
+        Dictionary<GameObject, int> idPerObject = new Dictionary<GameObject, int>();
 
         // second pass: check all used-in-scene viewIDs for duplicate viewIDs (only checking anything non-prefab)
         // scene-PVs must have user == 0 (scene/room) and a subId != 0
@@ -82,36 +94,65 @@ public class PhotonViewHandler : EditorWindow
             view.ownerId = 0;   // simply make sure no owner is set (cause room always uses 0)
             view.prefix = -1;   // TODO: prefix could be settable via inspector per scene?!
 
-            if (view.subId != 0)
+            if (view.viewID != 0)
             {
-                if (view.subId < minViewIdInThisScene || usedInstanceViewNumbers.Contains(view.subId))
+                if (view.viewID < minViewIdInThisScene || usedInstanceViewNumbers.Contains(view.viewID))
                 {
-                    view.subId = 0; // avoid duplicates and negative values by assigning 0 as (temporary) number to be fixed in next pass
+                    view.viewID = 0; // avoid duplicates and negative values by assigning 0 as (temporary) number to be fixed in next pass
                 }
                 else
                 {
-                    usedInstanceViewNumbers.Add(view.subId); // builds a list of currently used viewIDs
+                    usedInstanceViewNumbers.Add(view.viewID); // builds a list of currently used viewIDs
+
+                    int instId = 0;
+                    if (idPerObject.TryGetValue(view.gameObject, out instId))
+                    {
+                        view.instantiationId = instId;
+                    }
+                    else
+                    {
+                        view.instantiationId = view.viewID;
+                        idPerObject[view.gameObject] = view.instantiationId;
+                    }
                 }
             }
+
         }
 
-        // third pass: anything that's now 0 must get a new (not yet used) subId number
+        // third pass: anything that's now 0 must get a new (not yet used) ID (starting at 0)
         int lastUsedId = (minViewIdInThisScene > 0) ? minViewIdInThisScene - 1 : 0;
+
         foreach (PhotonView view in pvInstances)
         {
-            if (view.subId == 0)
+            if (view.viewID == 0)
             {
+                Undo.RecordObject(view, "Automatic viewID change for: "+view.gameObject.name);
+
                 // Debug.LogWarning("setting scene ID: " + view.gameObject.name + " ID: " + view.subId.ID + " scene ID: " + view.GetSceneID() + " IsPersistent: " + EditorUtility.IsPersistent(view.gameObject) + " IsSceneViewIDFree: " + IsSceneViewIDFree(view.subId.ID, view));
-                view.subId = PhotonViewHandler.GetID(lastUsedId, usedInstanceViewNumbers);
-                lastUsedId = view.subId;
+                int nextViewId = PhotonViewHandler.GetID(lastUsedId, usedInstanceViewNumbers);
 
-                //// when using the Editor's serialization (view.subId in this case), this is not needed, it seems
-                //PrefabUtility.RecordPrefabInstancePropertyModifications(view);
+                view.viewID = nextViewId;
 
-                EditorUtility.SetDirty(view);
+                int instId = 0;
+                if (idPerObject.TryGetValue(view.gameObject, out instId))
+                {
+                    view.instantiationId = instId;
+                }
+                else
+                {
+                    view.instantiationId = view.viewID;
+                    idPerObject[view.gameObject] = nextViewId;
+                }
+
+                lastUsedId = nextViewId;
                 fixedSomeId = true;
+
+                #if !UNITY_MIN_5_3
+                EditorUtility.SetDirty(view);
+                #endif
             }
         }
+
 
         if (fixedSomeId)
         {
@@ -142,11 +183,9 @@ public class PhotonViewHandler : EditorWindow
 
         foreach (string scene in scenes)
         {
-            EditorApplication.OpenScene(scene);
-
-            PhotonViewHandler.HierarchyChange();//TODO: most likely on load also triggers a hierarchy change
-
-            EditorApplication.SaveScene();
+            EditorSceneManager.OpenScene(scene);
+            PhotonViewHandler.HierarchyChange();//NOTE: most likely on load also triggers a hierarchy change
+            EditorSceneManager.SaveOpenScenes();
         }
 
         Debug.Log("Corrected scene views where needed.");
