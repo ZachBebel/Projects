@@ -27,15 +27,18 @@ public class PlayerAttributes : Photon.MonoBehaviour
         health = 100.0f;
         maxHealth = 100.0f;
         networkManager = GameObject.Find("_Scripts").GetComponent<NetworkManager>();
+        if (!photonView.isMine) gameObject.transform.FindChild("Main Camera").gameObject.SetActive(false);
     }
 
     [PunRPC]
     public void SetColor(int colorNumber)
     {
         playerColor = colorNumber;
-        GetComponent<Renderer>().material = AssetManager.colors[colorNumber];
-        guiHUD.GetComponent<GUITexture>().texture = AssetManager.HUDColors[colorNumber];
-
+        transform.FindChild("Mesh").GetComponent<Renderer>().material = AssetManager.colors[colorNumber];
+        /*Color red = new Color(227, 0, 0, 0.5f);
+        guiHUD.GetComponent<GUITexture>().texture = AssetManager.HUDDefault;
+        guiHUD.GetComponent<GUITexture>().color = red;*/
+        if (guiHUD) guiHUD.GetComponent<GUITexture>().texture = AssetManager.HUDColors[colorNumber];
     }
 
     [PunRPC]

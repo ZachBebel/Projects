@@ -197,13 +197,13 @@ public class PlayerController : Photon.MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                Debug.Log("Unlock");
+                //Debug.Log("Unlock");
             }
             else if (Cursor.lockState == CursorLockMode.None)
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
-                Debug.Log("Lock");
+                //Debug.Log("Lock");
             }
         }
     }
@@ -215,7 +215,7 @@ public class PlayerController : Photon.MonoBehaviour
         // Falling Death
         //
 
-        if (transform.position.y < -50.0f)
+        if (transform.position.y < -70.0f)
         {
             GetComponent<PlayerAttributes>().Die();
         }

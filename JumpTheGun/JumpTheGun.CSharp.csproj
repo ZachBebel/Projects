@@ -215,7 +215,6 @@
     <Compile Include="Assets\Scripts\NetworkPlayer.cs" />
     <Compile Include="Assets\Scripts\PlayerAttributes.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\SetCamera.cs" />
     <Compile Include="Assets\Scripts\SpawnSpot.cs" />
     <Compile Include="Assets\Scripts\TimedDestroy.cs" />
   </ItemGroup>

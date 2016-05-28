@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AssetManager : MonoBehaviour
 {
@@ -38,13 +39,12 @@ public class AssetManager : MonoBehaviour
     public static Texture titleTexture = (Texture)Resources.Load("JumpTheGun", typeof(Texture));
 
     // Levels
-    public static GameObject levelFPSTeleport = (GameObject)Resources.Load("[LEVEL] FPSTeleport", typeof(GameObject));
-    public static GameObject levelTheConfines = (GameObject)Resources.Load("[LEVEL] The Confines", typeof(GameObject));
-    public static GameObject levelTheDomain = (GameObject)Resources.Load("[LEVEL] The Domain", typeof(GameObject));
-    public static GameObject levelDrone = (GameObject)Resources.Load("[LEVEL] Drone", typeof(GameObject));
+    public static Dictionary<string, GameObject> levels = new Dictionary<string, GameObject>
+    {
+        { "FPSTeleport", (GameObject)Resources.Load("[LEVEL] FPSTeleport", typeof(GameObject)) },
+        { "The Confines", (GameObject)Resources.Load("[LEVEL] The Confines", typeof(GameObject)) },
+        { "The Domain", (GameObject)Resources.Load("[LEVEL] The Domain", typeof(GameObject)) },
+        { "Drone", (GameObject)Resources.Load("[LEVEL] Drone", typeof(GameObject)) }
+    };
 
-    public static GameObject[] levels = { /*levelFPSTeleport,
-                                            levelTheConfines,
-                                            levelTheDomain, */
-                                            levelDrone };
 }

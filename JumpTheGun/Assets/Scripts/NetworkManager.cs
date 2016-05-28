@@ -26,6 +26,7 @@ public class NetworkManager : Photon.MonoBehaviour
     List<string> chatMessages;
     int maxChatMessages = 5;
     int randPlayerColor;
+    string gameVersion = "FPST 1.0";
 
     // GameState Enum
     public GameState gameState = GameState.MainMenu;
@@ -47,6 +48,9 @@ public class NetworkManager : Photon.MonoBehaviour
         standbyCamera = GameObject.Find("standbyCamera");
         PhotonNetwork.player.name = PlayerPrefs.GetString("Username", "Gladiatus");
         chatMessages = new List<string>();
+
+        PhotonNetwork.autoJoinLobby = true;
+        PhotonNetwork.SwitchToProtocol(ExitGames.Client.Photon.ConnectionProtocol.Udp);
     }
 
     void OnDestroy()
@@ -56,7 +60,8 @@ public class NetworkManager : Photon.MonoBehaviour
 
     void Connect()
     {
-        PhotonNetwork.ConnectUsingSettings("FPST 1.0");
+        PhotonNetwork.ConnectToRegion(CloudRegionCode.us, gameVersion);
+        //PhotonNetwork.ConnectUsingSettings(gameVersion);
     }
 
     public void AddChatMessage(string msg)
@@ -234,7 +239,7 @@ public class NetworkManager : Photon.MonoBehaviour
             if (GUILayout.Button(levelNames[i]))
             {
                 levelSelected = levelNames[i];
-                ChangeLevel(i);
+                ChangeLevel(levelNames[i]);
                 gameState = GameState.Game;
                 BeginGame();
             }
@@ -278,13 +283,13 @@ public class NetworkManager : Photon.MonoBehaviour
         chatMessages.Clear();
     }
 
-    void ChangeLevel(int levelNumber)
+    void ChangeLevel(string levelName)
     {
         if (level.transform.childCount != 0)
         {
             Destroy(level.transform.GetChild(0).gameObject);
         }
-        GameObject newLevel = Instantiate(AssetManager.levels[levelNumber]);
+        GameObject newLevel = Instantiate(AssetManager.levels[levelName]);
         newLevel.transform.parent = level.transform;
     }
 
@@ -304,7 +309,7 @@ public class NetworkManager : Photon.MonoBehaviour
 
     void OnJoinedRoom()
     {
-        Debug.Log("OnJoinedRoom()" + PhotonNetwork.room.name);
+        Debug.Log("OnJoinedRoom() " + PhotonNetwork.room.name);
 
         connecting = false;
         SpawnMyPlayer();
@@ -331,9 +336,8 @@ public class NetworkManager : Photon.MonoBehaviour
         myPlayerGO.GetComponent<PhotonView>().RPC("SetColor", PhotonTargets.AllBuffered, Random.Range(0, AssetManager.colors.Length));
 
         // Set Camera to Player
-
-        myPlayerGO.GetComponent<SetCamera>().enabled = false;
-        myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
+         
+        //myPlayerGO.transform.FindChild("Main Camera").gameObject.SetActive(true);
         standbyCamera.SetActive(false);
 
         // Create Health Bar UI
