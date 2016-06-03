@@ -1,44 +1,47 @@
 using UnityEngine;
 using System.Collections;
 
-[RequireComponent (typeof(CharacterController))]
-public class PlayerController : Photon.MonoBehaviour {
-	
-	// Physics Variables
-	public float movementSpeed = 5.0f;
-	public float mouseSensitivity = 5.0f;
-	public float jumpSpeed = 20.0f;
-	float verticalVelocity = 0.0f;
-	float forwardSpeed;
-	float sideSpeed;
-	Vector3 speed;
-	Quaternion currentRotation;
-	
-	float verticalRotation = 0.0f;
-	public float upDownRange = 60.0f;
-	
-	// Player GameObject Variables
-	CharacterController characterController;
-	Camera playerCam;
-	public GameObject mostRecentBullet;
-	NetworkManager networkManager;
+[RequireComponent(typeof(CharacterController))]
+public class PlayerController : Photon.MonoBehaviour
+{
 
-	//Debug Bools
-	bool paused;
-	
-	void Start () {
-		Screen.lockCursor = true;
-		characterController = GetComponent<CharacterController>();
-		playerCam = this.transform.FindChild ("Main Camera").camera;
-		this.gameObject.tag = "Player";
-		networkManager = GameObject.Find("_Scripts").GetComponent<NetworkManager>();
-	}
-	
-	//
-	// *** Check "EDIT" --> "Project Settings" --> "Input" in Unity for player input settings
-	//
-	
-	/*
+    // Physics Variables
+    public float movementSpeed = 10.0f;
+    public float mouseSensitivity = 5.0f;
+    public float jumpSpeed = 10.0f;
+
+    float verticalVelocity = 0.0f;
+    float forwardSpeed;
+    float sideSpeed;
+    Vector3 speed;
+    Quaternion currentRotation;
+
+    float verticalRotation = 0.0f;
+    public float upDownRange = 60.0f;
+
+    // Player GameObject Variables
+    CharacterController characterController;
+    Camera playerCam;
+    public GameObject mostRecentBullet;
+    NetworkManager networkManager;
+
+    //Debug Bools
+    bool paused;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        characterController = GetComponent<CharacterController>();
+        playerCam = transform.FindChild("Main Camera").GetComponent<Camera>();
+        gameObject.tag = "Player";
+        networkManager = GameObject.Find("_Scripts").GetComponent<NetworkManager>();
+    }
+
+    //
+    // *** Check "EDIT" --> "Project Settings" --> "Input" in Unity for player input settings
+    //
+
+    /*
 	
 	Controls:
 	
@@ -62,110 +65,113 @@ public class PlayerController : Photon.MonoBehaviour {
 	
 	*/
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
 
-		if(networkManager.gameState == GameState.Game)
-		{
-			Look ();
-			Move ();
-			Shoot ();
-			Teleport ();
-		}
+        if (networkManager.gameState == GameState.Game)
+        {
+            Look();
+            Move();
+            Shoot();
+            Teleport();
+        }
 
-		Paused();
-		OutOfBounds();
-	}
+        Paused();
+        OutOfBounds();
+    }
 
-	void Look () 
-	{
+    void Look()
+    {
 
-		//
-		// Player Rotation and Camera Movement	
-		//
+        //
+        // Player Rotation and Camera Movement	
+        //
 
-		float rotLeftRight = Input.GetAxis("Mouse X") * mouseSensitivity;
-		transform.Rotate(0, rotLeftRight, 0);
-		
-		verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
-		verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
-		playerCam.gameObject.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
-	}
+        float rotLeftRight = Input.GetAxis("Mouse X") * mouseSensitivity;
+        transform.Rotate(0, rotLeftRight, 0);
 
-	void Move () 
-	{
+        verticalRotation -= Input.GetAxis("Mouse Y") * mouseSensitivity;
+        verticalRotation = Mathf.Clamp(verticalRotation, -upDownRange, upDownRange);
+        playerCam.gameObject.transform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+    }
 
-		//
-		// Movement
-		//
+    void Move()
+    {
 
-		if( characterController.isGrounded ) {
-			// Jumping
-			if ( Input.GetButton("Jump") ) { verticalVelocity = jumpSpeed; }
-			
-			// Can only control cardinal movement while on the Ground
-			forwardSpeed = Input.GetAxis("Vertical") * movementSpeed;
-			sideSpeed = Input.GetAxis("Horizontal") * movementSpeed;
-			speed = new Vector3( sideSpeed, verticalVelocity, forwardSpeed );
-			speed = transform.rotation * speed;
-			currentRotation = transform.rotation;
-		}
-		else {
-			// Can only fall and change camera viewpoint while in the Air
-			verticalVelocity += Physics.gravity.y * Time.deltaTime;
-			speed = new Vector3( sideSpeed, verticalVelocity, forwardSpeed );
-			speed = currentRotation * speed;
-		}
-		
-		characterController.Move( speed * Time.deltaTime );
-	}
+        //
+        // Movement
+        //
 
-	void Shoot () 
-	{
+        if (characterController.isGrounded)
+        {
+            // Jumping
+            if (Input.GetButton("Jump")) { verticalVelocity = jumpSpeed; }
 
-		//
-		// Shooting
-		//
+            // Can only control cardinal movement while on the Ground
+            forwardSpeed = Input.GetAxis("Vertical") * movementSpeed;
+            sideSpeed = Input.GetAxis("Horizontal") * movementSpeed;
+            speed = new Vector3(sideSpeed, verticalVelocity, forwardSpeed);
+            speed = transform.rotation * speed;
+            currentRotation = transform.rotation;
+        }
+        else
+        {
+            // Can only fall and change camera viewpoint while in the Air
+            verticalVelocity += 2 * Physics.gravity.y * Time.deltaTime;
+            speed = new Vector3(sideSpeed, verticalVelocity, forwardSpeed);
+            speed = currentRotation * speed;
+        }
 
-		if( Input.GetButtonDown("Fire1") ) {
-			GameObject thebullet = (GameObject)PhotonNetwork.Instantiate("Bullet", playerCam.transform.position + playerCam.transform.forward, playerCam.transform.rotation, 0);
-			thebullet.GetComponent<PhotonView>().RPC("Fire", PhotonTargets.All, playerCam.transform.forward * thebullet.GetComponent<BulletScript>().speed);
-			thebullet.GetComponent<BulletScript>().myPlayer = this.gameObject;
-			thebullet.GetComponent<PhotonView>().RPC("SetColor", PhotonTargets.AllBuffered, GetComponent<PlayerAttributes>().playerColor);
-		}
-	}
-	
-	void Teleport () 
-	{
+        characterController.Move(speed * Time.deltaTime);
+    }
 
-		//
-		// Teleportation to Bullet
-		//
+    void Shoot()
+    {
 
-		if(mostRecentBullet != null) 
-		{
-			if(Input.GetMouseButtonDown(1))	// Right-Click, Single Press
-			{
-				// Teleport Partcile Effect
-				PhotonNetwork.Instantiate("Teleport Particles", transform.position, Quaternion.identity, 0);
-			}
-			if (Input.GetMouseButton(1))	// Right-Click, Single Press or Held-Down
-			{
-				// Set new position
-				transform.position = mostRecentBullet.transform.position;
-				
-				// Reset falling velocity
-				verticalVelocity = 0;
-			}
-		}
-	}
+        //
+        // Shooting
+        //
+        if (Input.GetButtonDown("Fire1"))
+        {
+            GameObject thebullet = PhotonNetwork.Instantiate("_Bullet", playerCam.transform.position + playerCam.transform.forward, playerCam.transform.rotation, 0);
+            thebullet.GetComponent<PhotonView>().RPC("Fire", PhotonTargets.All, playerCam.transform.forward * thebullet.GetComponent<BulletScript>().speed);
+            thebullet.GetComponent<BulletScript>().myPlayer = gameObject;
+            thebullet.GetComponent<PhotonView>().RPC("SetColor", PhotonTargets.AllBuffered, GetComponent<PlayerAttributes>().playerColor);
+        }
+    }
 
-	void Paused () 
-	{
+    void Teleport()
+    {
 
-		//
-		// Pausing
-		//
+        //
+        // Teleportation to Bullet
+        //
+
+        if (mostRecentBullet != null)
+        {
+            if (Input.GetMouseButtonDown(1))    // Right-Click, Single Press
+            {
+                // Teleport Partcile Effect
+                PhotonNetwork.Instantiate("Teleport Particles", transform.position, Quaternion.identity, 0);
+            }
+            if (Input.GetMouseButton(1))    // Right-Click, Single Press or Held-Down
+            {
+                // Set new position
+                transform.position = mostRecentBullet.transform.position;
+
+                // Reset falling velocity
+                verticalVelocity = 0;
+            }
+        }
+    }
+
+    void Paused()
+    {
+
+        //
+        // Pausing
+        //
 
 		if (Input.GetKeyDown (KeyCode.P))
 		{
@@ -173,36 +179,34 @@ public class PlayerController : Photon.MonoBehaviour {
 			if(networkManager.gameState == GameState.Game)
 			{
 				networkManager.gameState = GameState.PauseMenu;
-				Screen.lockCursor = false;
-			}
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
 			else if(networkManager.gameState == GameState.PauseMenu)
 			{
 				networkManager.gameState = GameState.Game;
-				Screen.lockCursor = true;
-			}
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
 		}
 
-		// Lock or Unlock the Cursor via ESC or L
-		if (Input.GetKeyDown (KeyCode.Escape) || Input.GetKeyDown (KeyCode.L)) 
-		{
-			Screen.lockCursor = !Screen.lockCursor; 
-		}
-	}
+    }
 
-	void OutOfBounds()
-	{
-		 
-		//
-		// Falling Death
-		//
+    void OutOfBounds()
+    {
 
-		if(transform.position.y < -50.0f){
-			GetComponent<PlayerAttributes>().Die();
-		}
-	}
+        //
+        // Falling Death
+        //
+
+        if (transform.position.y < -70.0f)
+        {
+            GetComponent<PlayerAttributes>().Die();
+        }
+    }
 
 
-	
+
 }
 
 

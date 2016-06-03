@@ -6,6 +6,7 @@ using System.Net;
 using ExitGames.Client.Photon;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using SupportClassPun = ExitGames.Client.Photon.SupportClass;
 
 
 #if UNITY_EDITOR || (!UNITY_ANDROID && !UNITY_IPHONE && !UNITY_PS3 && !UNITY_WINRT)
@@ -53,7 +54,7 @@ public class PingMonoEditor : PhotonPing
         }
 
         int read = sock.Receive(PingBytes, SocketFlags.None);
-        //Debug.Log("Got: " + SupportClass.ByteArrayToString(PingBytes));
+        //Debug.Log("Got: " + SupportClassPun.ByteArrayToString(PingBytes));
         bool replyMatch = PingBytes[PingBytes.Length - 1] == PingId && read == PingLength;
         if (!replyMatch) Debug.Log("ReplyMatch is false! ");
 
@@ -127,9 +128,13 @@ public class PhotonPingManager
             Debug.Log("Using constructor for new PingNativeDynamic()"); // it seems on android, the Activator can't find the default Constructor
             ping = new PingNativeDynamic();
         }
+        else if (PhotonHandler.PingImplementation == typeof(PingMono))
+        {
+            ping = new PingMono();  // using this type explicitly saves it from IL2CPP bytecode stripping
+        }
         else
         {
-            ping = (PhotonPing)Activator.CreateInstance(PhotonHandler.PingImplementation);
+            ping = (PhotonPing) Activator.CreateInstance(PhotonHandler.PingImplementation);
         }
 
         //Debug.Log("Ping is: " + ping + " type " + ping.GetType());

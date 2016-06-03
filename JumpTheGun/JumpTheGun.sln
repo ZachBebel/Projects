@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumpTheGun.CSharp.Plugins", "JumpTheGun.CSharp.Plugins.csproj", "{78816619-3A7B-7AB8-8548-4140A61917DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumpTheGun.CSharp", "JumpTheGun.CSharp.csproj", "{2779F05A-D61B-8B89-DC35-FB8E99DD9A7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumpTheGun.CSharp.Editor", "JumpTheGun.CSharp.Editor.csproj", "{DBFA46BB-B979-A270-B775-86BE66091599}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{78816619-3A7B-7AB8-8548-4140A61917DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78816619-3A7B-7AB8-8548-4140A61917DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78816619-3A7B-7AB8-8548-4140A61917DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78816619-3A7B-7AB8-8548-4140A61917DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2779F05A-D61B-8B89-DC35-FB8E99DD9A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2779F05A-D61B-8B89-DC35-FB8E99DD9A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2779F05A-D61B-8B89-DC35-FB8E99DD9A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2779F05A-D61B-8B89-DC35-FB8E99DD9A7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBFA46BB-B979-A270-B775-86BE66091599}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBFA46BB-B979-A270-B775-86BE66091599}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBFA46BB-B979-A270-B775-86BE66091599}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBFA46BB-B979-A270-B775-86BE66091599}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

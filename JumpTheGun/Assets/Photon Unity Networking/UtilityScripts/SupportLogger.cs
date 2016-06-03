@@ -31,6 +31,12 @@ public class SupportLogging : MonoBehaviour
         }
     }
 
+
+    protected void OnApplicationPause(bool pause)
+    {
+        Debug.Log("SupportLogger OnApplicationPause: " + pause + " connected: " + PhotonNetwork.connected);
+    }
+
     public void OnApplicationQuit()
     {
         this.CancelInvoke();
@@ -82,16 +88,21 @@ public class SupportLogging : MonoBehaviour
 
     public void OnJoinedRoom()
     {
-        Debug.Log("SupportLogger OnJoinedRoom(" + PhotonNetwork.room + "). " + PhotonNetwork.lobby);
+        Debug.Log("SupportLogger OnJoinedRoom(" + PhotonNetwork.room + "). " + PhotonNetwork.lobby + " GameServer:" + PhotonNetwork.ServerAddress);
     }
 
     public void OnCreatedRoom()
     {
-        Debug.Log("SupportLogger OnCreatedRoom(" + PhotonNetwork.room + "). " + PhotonNetwork.lobby);
+        Debug.Log("SupportLogger OnCreatedRoom(" + PhotonNetwork.room + "). " + PhotonNetwork.lobby + " GameServer:" + PhotonNetwork.ServerAddress);
     }
 
     public void OnLeftRoom()
     {
         Debug.Log("SupportLogger OnLeftRoom().");
+    }
+
+    public void OnDisconnectedFromPhoton()
+    {
+        Debug.Log("SupportLogger OnDisconnectedFromPhoton().");
     }
 }
