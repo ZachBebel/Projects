@@ -22,8 +22,20 @@
             display: none;
         }
         
+        .template-wrap {
+            min-width: 800px;
+            min-height: 450px;
+            height: 1px;
+            width: 1px;
+        }
+        
         .template-wrap canvas {
             margin: 0;
+            box-shadow: none;
+        }
+        
+        .fullscreen {
+            cursor: pointer;
         }
     </style>
 </head>
@@ -31,14 +43,17 @@
 <body class="template">
     <p class="header"><span>Unity WebGL Player | </span>Jump The Gun</p>
     <div class="template-wrap clear">
-        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" height="450px" width="800px"></canvas>
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" width="800" height="450"></canvas>
         <br>
         <div class="logo"></div>
-        <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="25" height="25" alt="Fullscreen" title="Fullscreen" onclick="SetFullscreen(1);" /></div>
+        <div class="fullscreen"><img src="TemplateData/fullscreen.png" width="25" height="25" alt="Fullscreen" title="Fullscreen" /></div>
         <div class="title">Jump The Gun</div>
     </div>
     <p class="footer">&laquo; created with <a href="http://unity3d.com/" title="Go to unity3d.com">Unity</a> &raquo;</p>
     <script type='text/javascript'>
+        window.onload = function () {
+            window.focus();
+        }
         var Module = {
             TOTAL_MEMORY: 268435456
             , errorhandler: null, // arguments: err, url, line. This function must return 'true' if the error is handled, otherwise 'false'
@@ -47,9 +62,18 @@
             , codeUrl: "Release/Jump The Gun Web Build.js"
             , memUrl: "Release/Jump The Gun Web Build.mem"
         , };
+        document.querySelector(".fullscreen").addEventListener("click", function () {
+            console.log("FULLSCREEN");
+            SetFullscreen(1);
+        });
     </script>
     <script src="Release/UnityLoader.js"></script>
 
+    <!--
+    <div style="text-align:center">
+        <iframe id="" name="" src="https://people.rit.edu/~zlb3507/projects/jumpthegun/" marginheight="0" frameborder="0" width="800" height="450" scrolling="no" allowfullscreen=true webkitallowfullscreen=true mozallowfullscreen=true></iframe>
+    </div>
+    -->
 </body>
 
 </html>
