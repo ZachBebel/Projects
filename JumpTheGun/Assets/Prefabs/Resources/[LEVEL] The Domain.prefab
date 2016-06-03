@@ -2334,7 +2334,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0.81915206, z: 0, w: 0.57357645}
   m_LocalPosition: {x: 33.905052, y: -6.315502, z: 24.052422}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -110, z: 0}
   m_Children: []
   m_Father: {fileID: 487452}
   m_RootOrder: 0
@@ -2779,7 +2779,7 @@ Transform:
   m_LocalRotation: {x: 0, y: -0.3826835, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 16.609175, y: -5.668438, z: -33.002953}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
   m_Children: []
   m_Father: {fileID: 487452}
   m_RootOrder: 1
@@ -3310,9 +3310,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193014}
   m_LocalRotation: {x: 0, y: 0.34202015, z: 0, w: 0.9396927}
-  m_LocalPosition: {x: -6.048958, y: -68.28523, z: -6.3176475}
+  m_LocalPosition: {x: 2.15, y: -68.28523, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 40, z: 0}
   m_Children: []
   m_Father: {fileID: 487452}
   m_RootOrder: 2
@@ -4113,9 +4113,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 152446}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -40.945805, y: -8.430317, z: 8.856121}
+  m_LocalPosition: {x: -40.945805, y: -6.68, z: 8.856121}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_Children: []
   m_Father: {fileID: 487452}
   m_RootOrder: 3
@@ -9215,7 +9215,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 55d1ec966f9175745b18b2c88f3ede29, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 120d319b4ef05164aac740bca70a30af, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -9257,7 +9257,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -9279,7 +9279,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!108 &10818044
 Light:
   m_ObjectHideFlags: 1

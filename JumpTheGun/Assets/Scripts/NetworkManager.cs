@@ -32,9 +32,9 @@ public class NetworkManager : Photon.MonoBehaviour
     public GameState gameState = GameState.MainMenu;
 
     // Level Scene Name String
-    static string[] levelNames = {	/*"FPSTeleport",
+    static string[] levelNames = {	/*"FPSTeleport",*/
 									"The Confines",
-                                    "The Domain",*/
+                                    "The Domain",
                                     "Drone" };
     string levelSelected = levelNames[0];
 
