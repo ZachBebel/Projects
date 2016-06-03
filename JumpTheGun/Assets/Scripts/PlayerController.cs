@@ -190,22 +190,6 @@ public class PlayerController : Photon.MonoBehaviour
             }
 		}
 
-        // Lock or Unlock the Cursor via ESC or L
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.L))
-        {
-            if (Cursor.lockState == CursorLockMode.Locked)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                //Debug.Log("Unlock");
-            }
-            else if (Cursor.lockState == CursorLockMode.None)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                //Debug.Log("Lock");
-            }
-        }
     }
 
     void OutOfBounds()

@@ -108,6 +108,44 @@ public class NetworkManager : Photon.MonoBehaviour
         else if (gameState == GameState.Game) { /* No Menu */ }
     }
 
+    void Update()
+    {
+        if (gameState != GameState.Game) {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        // Lock or Unlock the Cursor via L or ESC
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            //Debug.Log("Lock");
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            //Debug.Log("Unlock");
+        }
+        /*
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.L))
+        {
+            if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                //Debug.Log("Unlock");
+            }
+            else if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                //Debug.Log("Lock");
+            }
+        }*/
+    }
+
     public void MainMenuGUI()
     {
         GUILayout.BeginArea(new Rect(0, 0, Screen.width, Screen.height));
