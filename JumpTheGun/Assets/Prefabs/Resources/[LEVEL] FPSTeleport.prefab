@@ -8,7 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 114: {fileID: 11400390}
+  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
@@ -24,7 +24,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400002}
-  - 114: {fileID: 11476688}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
@@ -203,7 +203,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400024}
-  - 114: {fileID: 11486952}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
@@ -267,7 +267,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400032}
-  - 114: {fileID: 11470328}
+  - 114: {fileID: 11400006}
   m_Layer: 0
   m_Name: SpawnPoint
   m_TagString: Untagged
@@ -1440,7 +1440,7 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11400390
+--- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1448,23 +1448,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163e306f430b20f4c88fa4604afae35b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a6e6962e4346a1438bddca5c424c2f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
---- !u!114 &11470328
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163e306f430b20f4c88fa4604afae35b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamID: 0
---- !u!114 &11476688
+--- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1472,11 +1460,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163e306f430b20f4c88fa4604afae35b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a6e6962e4346a1438bddca5c424c2f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0
---- !u!114 &11486952
+--- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1484,7 +1472,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 100024}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 163e306f430b20f4c88fa4604afae35b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a6e6962e4346a1438bddca5c424c2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamID: 0
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6e6962e4346a1438bddca5c424c2f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   teamID: 0

@@ -11,8 +11,8 @@ GameObject:
   - 15: {fileID: 1500000}
   - 12: {fileID: 1200000}
   - 26: {fileID: 2600000}
-  - 114: {fileID: 11404572}
-  - 114: {fileID: 11473042}
+  - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Death Explosion
   m_TagString: Untagged
@@ -144,19 +144,7 @@ EditorExtensionImpl:
 --- !u!1002 &5300003
 EditorExtensionImpl:
   serializedVersion: 6
---- !u!114 &11404572
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40eb0f752057ba44daf1a2d1292dffea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifespan: 1
---- !u!114 &11473042
+--- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -181,6 +169,18 @@ MonoBehaviour:
   viewIdField: 0
   instantiationId: -1
   isRuntimeInstantiated: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae48d8004cc73c44a9faad7e717d7460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifespan: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
